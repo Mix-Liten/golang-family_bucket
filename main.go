@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/mix-liten/golang-family_bucket/api/todos"
+	"github.com/mix-liten/golang-family_bucket/middlewares"
 	"net/http"
 	"strconv"
 )
@@ -24,7 +25,7 @@ func main()  {
 	app.GET("/hello/:name", hello)
 
 	todosApi := app.Group("/api/todos")
-	todosApi.GET("/", todos.All)
+	todosApi.GET("/", middlewares.Log, todos.All)
 	todosApi.GET("/:id")
 	todosApi.PUT("/:id")
 	todosApi.POST("/")
