@@ -18,7 +18,7 @@ func hello(ctx *gin.Context) {
 	ctx.String(http.StatusOK, "Hello %s, %s", name, lastStr)
 }
 
-func main()  {
+func main() {
 	app := gin.Default()
 
 	// /hello/name?time=3
@@ -26,9 +26,9 @@ func main()  {
 
 	todosApi := app.Group("/api/todos")
 	todosApi.GET("/", middlewares.Log, todos.All)
-	todosApi.GET("/:id")
-	todosApi.PUT("/:id")
-	todosApi.POST("/")
+	todosApi.GET("/:id", todos.One)
+	todosApi.PUT("/:id", todos.Update)
+	todosApi.POST("/", todos.Create)
 	todosApi.DELETE("/:id")
 
 	app.Run()
