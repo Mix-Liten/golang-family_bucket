@@ -122,3 +122,25 @@ func Update(ctx *gin.Context) {
 
 	ctx.Status(http.StatusOK)
 }
+
+func Delete(ctx *gin.Context) {
+	id := ctx.Param("id")
+
+	db := database.Open()
+	defer func() {
+		if err := db.Close(); err != nil {
+			fmt.Println(err)
+		}
+	}()
+
+	// if err := db.Model(&todoItems).Where("id = ?", id).Update("title", postData.Title).Error
+
+	var todoItem models.Todo
+	if err := db.Model(&todoItem).Where("id = ?", id).Delete(&todoItem).Error; err != nil {
+		fmt.Println(err)
+		ctx.Status(http.StatusInternalServerError)
+		return
+	}
+
+	ctx.Status(http.StatusOK)
+}

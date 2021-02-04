@@ -27,9 +27,9 @@ func main() {
 	todosApi := app.Group("/api/todos")
 	todosApi.GET("/", middlewares.Log, todos.All)
 	todosApi.GET("/:id", todos.One)
-	todosApi.PUT("/:id", todos.Update)
 	todosApi.POST("/", todos.Create)
-	todosApi.DELETE("/:id")
+	todosApi.PUT("/:id", todos.Update)
+	todosApi.DELETE("/:id", todos.Delete)
 
 	app.Run()
 }

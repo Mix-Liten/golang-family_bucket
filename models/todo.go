@@ -1,24 +1,23 @@
 package models
 
 import (
-	"github.com/rs/xid"
 	"time"
 )
 
-type base struct {
-	ID        string `gorm:"primary_key"`
+type Base struct {
+	ID        int `gorm:"primary_key"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt *time.Time `sql:"index"`
 }
 
-func (b base) BeforeCreate() (err error) {
-	b.ID = xid.New().String()
-	return
-}
+//func (b Base) BeforeCreate(tx *gorm.DB) (err error) {
+//	b.ID = xid.New().String()
+//	return
+//}
 
 type Todo struct {
-	base
+	Base
 	Title string
 	Done  bool
 }
