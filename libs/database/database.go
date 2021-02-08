@@ -8,29 +8,32 @@ import (
 	"github.com/mosluce/go-toolkits/database"
 )
 
-func Open() *gorm.DB {
-	var db *gorm.DB
+var DB *gorm.DB
+
+func open() {
 	var err error
 
 	if gin.Mode() == gin.ReleaseMode {
-		db, err = toolkits.OpenDB(database.ConnectionConfig{
+		DB, err = toolkits.OpenDB(database.ConnectionConfig{
 			Dialect:  database.SQLITE,
 			Filepath: "db.sqlite",
 		})
 	} else {
-		db, err = toolkits.OpenDB(database.ConnectionConfig{
+		DB, err = toolkits.OpenDB(database.ConnectionConfig{
 			Dialect:  database.SQLITE,
 			Filepath: "db.sqlite",
 		})
 
-		db.LogMode(true)
+		DB.LogMode(true)
 	}
 
 	if err != nil {
 		panic(err)
 	}
 
-	db.AutoMigrate(&models.Todo{})
+	DB.AutoMigrate(&models.Todo{})
+}
 
-	return db
+func init() {
+	open()
 }
