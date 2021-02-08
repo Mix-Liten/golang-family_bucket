@@ -3,7 +3,9 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/mix-liten/golang-family_bucket/api/todos"
+	"github.com/mix-liten/golang-family_bucket/libs/database"
 	"github.com/mix-liten/golang-family_bucket/middlewares"
+	"log"
 	"net/http"
 	"strconv"
 )
@@ -19,6 +21,11 @@ func hello(ctx *gin.Context) {
 }
 
 func main() {
+	defer func() {
+		if err := database.DB.Close(); err != nil {
+			log.Fatal(err)
+		}
+	}()
 	app := gin.Default()
 
 	// /hello/name?time=3
